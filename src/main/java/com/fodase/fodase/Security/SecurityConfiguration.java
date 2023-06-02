@@ -30,6 +30,7 @@ public class SecurityConfiguration {
         .disable()
         .authorizeHttpRequests()
         .requestMatchers("/auth/**").permitAll()
+        .requestMatchers("/na/**").permitAll()
         .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
         .requestMatchers("/adm/**").hasAnyAuthority("ADMIN")
         .anyRequest()
