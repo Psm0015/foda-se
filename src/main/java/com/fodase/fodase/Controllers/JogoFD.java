@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,9 @@ import com.fodase.fodase.Repository.RodadaRepository;
 public class JogoFD {
 
     @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
     private RodadaRepository rRepository;
 
     @PostMapping
@@ -33,6 +37,7 @@ public class JogoFD {
             Date dataAtual = new Date();
             rodada.setData(new Timestamp(dataAtual.getTime()));
             rRepository.save(rodada);
+            messagingTemplate.convertAndSend("/topic/greetings", rodada);
             return ResponseEntity.ok().body("Aposta Feita com Sucesso");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e);

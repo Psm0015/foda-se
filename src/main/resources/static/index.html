@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div>
+    <div id="teste">
 
     </div>
 
@@ -23,16 +23,18 @@
                 console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/greetings', function (response) {
                     mostrar(JSON.parse(response.body));
+                    stompClient.send('/app/allrd', {}, JSON.stringify({}));
                 });
                 stompClient.send('/app/allrd', {}, JSON.stringify({}));
             });
         }
 
         function mostrar(obj) {
+            tabela = ''
             for (let i = 0; i < obj.length; i++) {
-                console.log(obj[i]);
-                
+                tabela += obj[i].id+"<br>";
             }
+            document.getElementById('teste').innerHTML = tabela
         }
 
     </script>
