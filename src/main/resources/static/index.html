@@ -20,7 +20,7 @@
             var socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
-                console.log('Connected: ' + frame);
+                // console.log('Connected: ' + frame);
                 stompClient.subscribe('/topic/greetings', function (response) {
                     mostrar(JSON.parse(response.body));
                     stompClient.send('/app/allrd', {}, JSON.stringify({}));
